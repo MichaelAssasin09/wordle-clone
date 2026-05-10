@@ -41,6 +41,54 @@ html, body {
   overflow: hidden;
 }
 
+/* Rare long-word mode ambience */
+.app-wrapper.longword-mode .bg-grid {
+  background-image:
+    linear-gradient(rgba(239, 68, 68, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(239, 68, 68, 0.045) 1px, transparent 1px);
+}
+
+.app-wrapper.longword-mode .bg-glow {
+  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.12) 0%, transparent 70%);
+}
+
+.app-wrapper.longword-mode {
+  filter: saturate(1.05);
+}
+
+.app-wrapper.longword-mode .logo {
+  color: #ef4444;
+  text-shadow: 0 0 30px rgba(239, 68, 68, 0.45);
+}
+
+.app-wrapper.longword-mode .status-dot {
+  background: #ef4444;
+}
+
+.app-wrapper.longword-mode .icon-btn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.app-wrapper.longword-mode .tile.correct {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.22), inset 0 0 10px rgba(239, 68, 68, 0.08);
+}
+
+.app-wrapper.longword-mode .key.correct {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.app-wrapper.longword-mode .toast {
+  background: #ef4444;
+  color: #0f0f0f;
+}
+
 /* ─── BACKGROUND ─── */
 .bg-grid {
   position: fixed;
@@ -307,6 +355,24 @@ html, body {
 /* Row shake animation */
 .board-row.shake {
   animation: shake 0.4s ease;
+}
+
+.board-row.shake-agony {
+  animation: shakeAgony 0.65s ease;
+}
+
+/* Agony shake (stronger + jittery) */
+@keyframes shakeAgony {
+  0%, 100% { transform: translateX(0); }
+  10%  { transform: translateX(-10px); }
+  20%  { transform: translateX(10px); }
+  30%  { transform: translateX(-8px); }
+  40%  { transform: translateX(8px); }
+  50%  { transform: translateX(-6px); }
+  60%  { transform: translateX(6px); }
+  70%  { transform: translateX(-4px); }
+  80%  { transform: translateX(4px); }
+  90%  { transform: translateX(-2px); }
 }
 
 /* Row bounce (win) */

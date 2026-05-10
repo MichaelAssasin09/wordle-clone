@@ -263,6 +263,9 @@ const KEYBOARD_ROWS = [
 // ─── STATE ────────────────────────────────
 let targetWord = '';
 let wordLength = 5;
+
+// Rare "long word" mode (1% chance on each new game)
+let longWordMode = false;
 let currentRow = 0;
 let currentCol = 0;
 let currentGuess = [];
@@ -288,11 +291,39 @@ const gameStatusEl = document.getElementById('gameStatus');
 function init() {
   loadStats();
 
-  // Pick a random word
-  const pool = WORD_LIST.filter(w => w.length >= 4 && w.length <= 8);
-  targetWord = pool[Math.floor(Math.random() * pool.length)].toLowerCase();
-  wordLength = targetWord.length;
+  // Rare "long word" mode: 5% chance
+  longWordMode = Math.random() < 0.05;
 
+  const rareLongWords = [
+    "pneumonoultramicroscopicsilicovolcanoconiosis",
+    "demisemihemidemisemiquaver",
+    "hipopotomonstrosesquipedaliofobia",
+    "honorificabilitudinitatibus",
+    "methionylthreonylthreonylglutaminylarginyl",
+    "floccinaucinihilipilification",
+    "pseudopseudohypoparathyroidism",
+    "electroencephalographically",
+    "thyroparathyroidectomised",
+    "microspectrophotometries"
+  ];
+
+  if (longWordMode) {
+    const pick = rareLongWords[Math.floor(Math.random() * rareLongWords.length)];
+    targetWord = pick.toLowerCase();
+    wordLength = targetWord.length;
+  } else {
+    // Pick a random word (normal mode)
+    const pool = WORD_LIST.filter(w => w.length >= 4 && w.length <= 8);
+    targetWord = pool[Math.floor(Math.random() * pool.length)].toLowerCase();
+    wordLength = targetWord.length;
+  }
+
+  const appWrapper = document.querySelector('.app-wrapper');
+  if (appWrapper) {
+    appWrapper.classList.toggle('longword-mode', longWordMode);
+  }
+
+  // Reset game state
   currentRow = 0;
   currentCol = 0;
   currentGuess = [];
@@ -416,6 +447,11 @@ function submitGuess() {
     updateKeyboard(guess, result);
 
     const won = result.every(s => s === 'correct');
+    // In long-word mode, "wrong but submitted" shakes the board harder
+    if (!won && longWordMode) {
+      shakeRowAgony(currentRow);
+    }
+
     if (won) {
       gameOver = true;
       gameStatusEl.textContent = 'WIN!';
@@ -504,6 +540,14 @@ function shakeRow(row) {
   void rowEl.offsetWidth; // reflow
   rowEl.classList.add('shake');
   rowEl.addEventListener('animationend', () => rowEl.classList.remove('shake'), { once: true });
+}
+
+function shakeRowAgony(row) {
+  const rowEl = document.getElementById(`row-${row}`);
+  rowEl.classList.remove('shake-agony');
+  void rowEl.offsetWidth; // reflow
+  rowEl.classList.add('shake-agony');
+  rowEl.addEventListener('animationend', () => rowEl.classList.remove('shake-agony'), { once: true });
 }
 
 function bounceRow(row) {
