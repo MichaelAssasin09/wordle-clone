@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WORDLE</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Animated background grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="app-wrapper">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <button class="icon-btn" id="helpBtn" title="How to play">?</button>
+      </div>
+      <div class="header-center">
+        <h1 class="logo">WORDLE</h1>
+        <span class="logo-sub">By Michael and Friends</span>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="statsBtn" title="Statistics">&#9783;</button>
+        <button class="icon-btn" id="newGameBtn" title="New Game">&#8635;</button>
+      </div>
+    </header>
+
+    <div class="divider"></div>
+
+    <!-- Status bar -->
+    <div class="status-bar">
+      <div class="status-item">
+        <span class="status-label">WORD LENGTH</span>
+        <span class="status-value" id="wordLengthDisplay">—</span>
+      </div>
+      <div class="status-dot"></div>
+      <div class="status-item">
+        <span class="status-label">ATTEMPT</span>
+        <span class="status-value" id="attemptDisplay">1 / 6</span>
+      </div>
+      <div class="status-dot"></div>
+      <div class="status-item">
+        <span class="status-label">STATUS</span>
+        <span class="status-value" id="gameStatus">PLAYING</span>
+      </div>
+    </div>
+
+    <!-- Message Toast -->
+    <div class="toast-container">
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <!-- Game Board -->
+    <main class="game-area">
+      <div class="board-container">
+        <div class="board" id="board"></div>
+      </div>
+    </main>
+
+    <!-- Keyboard -->
+    <div class="keyboard-container">
+      <div class="keyboard" id="keyboard">
+        <div class="keyboard-row" id="row1"></div>
+        <div class="keyboard-row" id="row2"></div>
+        <div class="keyboard-row" id="row3"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal: How to Play -->
+  <div class="modal-overlay" id="helpModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>HOW TO PLAY</h2>
+        <button class="modal-close" id="closeHelp">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Guess the hidden English word.</p>
+        <ul>
+          <li>Words are between <strong>4–8 characters</strong> long.</li>
+          <li>Each guess must be a valid word.</li>
+          <li>After each guess, tile colors will reveal how close you are.</li>
+        </ul>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-tile correct">A</div>
+            <span>Correct letter, correct position</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-tile present">B</div>
+            <span>Correct letter, wrong position</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-tile absent">C</div>
+            <span>Letter not in the word</span>
+          </div>
+        </div>
+        <p class="modal-note">There is a tiny chance that you'll have to guess some of the longest word in english!<br>If you guess it right then you're just phenomenal bro 🥀</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Statistics -->
+  <div class="modal-overlay" id="statsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>STATISTICS</h2>
+        <button class="modal-close" id="closeStats">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number" id="statPlayed">0</span>
+            <span class="stat-label">Played</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="statWinPct">0%</span>
+            <span class="stat-label">Win Rate</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="statStreak">0</span>
+            <span class="stat-label">Streak</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="statBest">0</span>
+            <span class="stat-label">Best</span>
+          </div>
+        </div>
+        <div class="guess-distribution">
+          <h3>GUESS DISTRIBUTION</h3>
+          <div id="distribution"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
